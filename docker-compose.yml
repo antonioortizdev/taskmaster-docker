@@ -44,6 +44,21 @@ services:
       - db
     networks:
       - taskmaster
+  client:
+    image: taskmaster-client
+    container_name: taskmaster-client
+    restart: unless-stopped
+    ports:
+      - "${CLIENT_PORT}:8080"
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+    volumes:
+      - ${CLIENT_PATH}:/app
+    depends_on:
+      - api
+    networks:
+      - taskmaster
 
 networks:
   taskmaster:
